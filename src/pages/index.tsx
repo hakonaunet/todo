@@ -1,45 +1,29 @@
-import styles from "./index.module.css";
 import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { api } from "~/utils/api";
 import { useState } from "react";
-import "./index.module.css"
+import TodoInput from "../TodoInput";
+import TodoList from "../TodoList";
+import "./index.module.css";
 
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
-  const text = "Halla balla e like kuk"
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState<string[]>([]);
   const addTodo = () => {
     if (todo !== "") {
       setTodos([...todos, todo]);
       setTodo("");
-    }
-};
+    }}
+  const deleteTodo = (text:string) => {
+    const newTodos = todos.filter((todo) => {
+      return todo !== text;
+    });
+    setTodos(newTodos);
+  };
   return (
     <div className="App">
       <h1>React Todo App</h1>
-      <>ibnnj</>
-      <br />
-      <button>RYKK MÆ</button>
-      {text}
-      
-      <p>neger </p>
-      <div>
-        <input 
-          type="text" 
-          name="todo" 
-          value={todo}
-          placeholder="Create a new todo"
-          onChange={(e) => setTodo (e.target.value)}
-          />
-        <button 
-          className="add-button"
-          onClick={addTodo}>
-        Add</button>
-      </div>
+      <TodoInput todo={todo} setTodo={setTodo} addTodo={addTodo} />
+      <TodoList list={todos} remove={deleteTodo} />
     </div>
   );
 };
